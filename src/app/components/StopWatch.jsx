@@ -7,7 +7,8 @@ export class StopWatch extends React.Component {
     constructor () {
         super();
         this.state = {
-            secondsElapsed: 0
+            secondsElapsed: 0,
+            laps:[]
         }
 
     }
@@ -30,19 +31,34 @@ export class StopWatch extends React.Component {
         this.setState({ lastClearedIncrement : this.incrementer })
     }
     resetClick () {
-        this.setState({secondsElapsed: 0})
+        this.setState({secondsElapsed: 0, laps:[]})
+    }
+    lapClick () {
+        this.setState({
+            laps: this.state.laps.concat(this.state.secondsElapsed)
+        })
     }
     render() {
         return (
-            <div>
-                <p>Root Page</p>
-                <h1>{ this.getMinutes() }:{ this.getSeconds() }</h1>
+            <div className="stopwatch">
+                <h1 className="stopwatch-timer">{ this.getMinutes() }:{ this.getSeconds() }</h1>
+                
                 {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrement)
-                ?<button onClick={ this.startClick.bind(this) }>Start</button>
-                :<button onClick={ this.stopClick.bind(this) }>Stop</button>}
-                {(this.state.secondsElapsed !== 0)
-                ? <button onClick={this.resetClick.bind(this)}>Reset</button>
+                ?<button className="btn start-btn" onClick={ this.startClick.bind(this) }>Start</button>
+                :<button className="btn stop-btn" onClick={ this.stopClick.bind(this) }>Stop</button>}
+                
+                {(this.state.secondsElapsed !== 0 && this.incrementer === this.state.lastClearedIncrement)
+                ? <button className="btn" onClick={this.resetClick.bind(this)}>Reset</button>
                 : null}
+                
+                  {(this.state.secondsElapsed !== 0 && this.incrementer !== this.state.lastClearedIncrement)
+                ? <button className="btn" onClick={this.lapClick.bind(this)}>Lap</button>
+                : null}
+
+                <ul className="stopwatch-laps">{this.state.laps.map((lap, i) => {
+                    return <li className="stopwatch-lap" key={i}><strong>{i + 1}</strong>{Math.floor(lap/60)}:{('0'+lap%60).slice(-2)}</li>
+                })}
+                </ul>
             </div>
         )
     }
