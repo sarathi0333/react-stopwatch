@@ -1,13 +1,12 @@
 import React from "react";
 import { render } from "react-dom";
 
-class App extends React.Component {
+export class Root extends React.Component {
     render() {
         return (
             <div>
-                <Root/>
+                <p>Root Page</p>
             </div>
         )
     }
-}
-render(<App/>, window.document.getElementById('stop-watch'));
+} 
