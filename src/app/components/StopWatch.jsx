@@ -26,17 +26,23 @@ export class StopWatch extends React.Component {
         
     }
     stopClick () {
-        console.log("stop");
         clearInterval(this.incrementer);
+        this.setState({ lastClearedIncrement : this.incrementer })
     }
-
+    resetClick () {
+        this.setState({secondsElapsed: 0})
+    }
     render() {
         return (
             <div>
                 <p>Root Page</p>
                 <h1>{ this.getMinutes() }:{ this.getSeconds() }</h1>
-                <button onClick={ this.startClick.bind(this) }>Start</button>
-                <button onClick={ this.stopClick.bind(this) }>Stop</button>
+                {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrement)
+                ?<button onClick={ this.startClick.bind(this) }>Start</button>
+                :<button onClick={ this.stopClick.bind(this) }>Stop</button>}
+                {(this.state.secondsElapsed !== 0)
+                ? <button onClick={this.resetClick.bind(this)}>Reset</button>
+                : null}
             </div>
         )
     }
