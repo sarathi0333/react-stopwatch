@@ -33,7 +33,7 @@ body {
     content: "Lap";
 }
 .stopwatch-lap strong::after {
-    content: "             ";
+    content: "";
 }
 .btn {
     display: inline-block;
